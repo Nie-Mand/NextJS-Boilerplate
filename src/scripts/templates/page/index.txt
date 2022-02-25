@@ -1,0 +1,19 @@
+import Head from 'next/head'
+import <%= Name %> from './<%= Name %>'
+import { useMessages } from 'app/hooks'
+import messages from './messages.json'
+
+const <%= Name %>Page = () => {
+  const t = useMessages('<%= name %>')
+
+  return (
+    <>
+      <Head>
+        <title>{t(messages.title)}</title>
+      </Head>
+      <<%= Name %> />
+    </>
+  )
+}
+
+export default <%= Name %>Page

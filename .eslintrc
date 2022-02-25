@@ -1,0 +1,13 @@
+{
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["**/*.txt", "README.md"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "rules": {
+    //! FIXME: temporary
+    "react/jsx-key": "off"
+  }
+}

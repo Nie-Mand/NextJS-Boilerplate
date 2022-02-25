@@ -1,0 +1,9 @@
+.browserslistrc
+.env
+.gitignore
+README.md
+.husky
+public
+src/scripts/templates
+README.md
+.prettierignore
