@@ -8,8 +8,6 @@ import { createSelector } from 'reselect'
 export const useExample = () => {
   const actions = useActions()
 
-  console.log(actions)
-
   const state = useSelector(
     createSelector(
       (state: State) => state.global,
@@ -33,7 +31,7 @@ const useActions = () => {
   const dispatch = useDispatch()
   const actions = useMemo(() => {
     return bindActionCreators(globalActions, dispatch)
-  }, [globalActions, dispatch])
+  }, [dispatch])
 
   return actions
 }

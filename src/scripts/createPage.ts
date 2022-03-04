@@ -30,7 +30,7 @@ export const createPage = () => {
             return 'Please enter a name'
           }
 
-          if (Fs.existsSync(path(`pages/${capitalize(input)}`))) {
+          if (Fs.existsSync(path(`components/pages/${capitalize(input)}`))) {
             return `${input} already exists`
           }
           return true
@@ -93,13 +93,6 @@ export const createPage = () => {
 
     Fs.mkdirSync(pathOf(`components`))
 
-    // const route = {
-    //   path: config.path,
-    //   componentPath: name,
-    //   layout: config.layout,
-    //   roles: [],
-    // }
-
     const success = (file: string, action: string) => (e: any) => {
       if (e) {
         spinner.error({
@@ -115,13 +108,13 @@ export const createPage = () => {
     await Fs.writeFile(
       pathOf('./components/index.ts'),
       'export {}\n',
-      success('components/index.ts', 'created'),
+      await success('components/index.ts', 'created'),
     )
 
     await Fs.writeFile(
       pathOf('./components/index.ts'),
       'export {}\n',
-      success('components/index.ts', 'created'),
+      await success('components/index.ts', 'created'),
     )
 
     await create(
@@ -132,7 +125,7 @@ export const createPage = () => {
         name,
         Layout: config.layout,
       },
-      success('index.tsx', 'created'),
+      await success('index.tsx', 'created'),
     )
 
     await create(
@@ -142,7 +135,7 @@ export const createPage = () => {
         Name: capitalize(name),
         name,
       },
-      success('messages.json', 'created'),
+      await success('messages.json', 'created'),
     )
 
     await create(
@@ -152,9 +145,10 @@ export const createPage = () => {
         Name: capitalize(name),
         name,
       },
-      success(`${capitalize(name)}.tsx`, 'created'),
+      await success(`${capitalize(name)}.tsx`, 'created'),
     )
 
+    // TODO: Add tests
     // await create(
     //   'page/test.txt',
     //   pathOf(`./${capitalize(name)}.test.tsx`),
@@ -164,12 +158,11 @@ export const createPage = () => {
     //   success(`${capitalize(name)}.test.tsx`, 'created'),
     // )
 
-    // TODO: Routing
     await create(
       'page/styled.txt',
       pathOf(`./${capitalize(name)}.styled.tsx`),
       {},
-      success(`${capitalize(name)}.styled.tsx`, 'created'),
+      await success(`${capitalize(name)}.styled.tsx`, 'created'),
     )
 
     const routesConfigContent = await Fs.readFileSync(path('routes.ts'), 'utf8')
@@ -189,11 +182,11 @@ export const createPage = () => {
       routesConfigContent + '\n' + Ejs.render(templateContent, data),
     )
 
-    success(`routes.ts`, 'updated')
+    await success(`routes.ts`, 'updated')
 
-    console.log(`
-Go add the following your/pages folder:
-export { default } from 'app/components/pages/${capitalize(name)}'
-`)
+    //     console.log(`
+    // Go add the following your/pages folder:
+    // export { default } from 'app/components/pages/${capitalize(name)}'
+    // `)
   })
 }

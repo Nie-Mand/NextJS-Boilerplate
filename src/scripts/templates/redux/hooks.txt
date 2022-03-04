@@ -27,7 +27,7 @@ const useActions = () => {
   const dispatch = useDispatch()
   const actions = useMemo(() => {
     return bindActionCreators(<%= name %>Actions, dispatch)
-  }, [<%= name %>Actions, dispatch])
+  }, [dispatch])
 
   return actions
 }

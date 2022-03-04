@@ -1,0 +1,10 @@
+{
+  "title": {
+    "id": "title",
+    "defaultMessage": "403"
+  },
+  "content": {
+    "id": "content",
+    "defaultMessage": "403 - Forbidden"
+  }
+}
