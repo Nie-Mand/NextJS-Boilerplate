@@ -5,25 +5,24 @@ import {
   reducer,
   saga,
   customMiddleware,
+  createRouterMiddleware,
+  initialRouterState,
+  createWrapper,
   // routerMiddleware,
   // createReduxHistory,
 } from './config'
 
 const sagaMiddleware = createSagaMiddleware()
+const routerMiddleware = createRouterMiddleware()
 
+// TODO: follow: https://github.com/danielr18/connected-next-router
 const store = createStore(
   reducer,
   composeWithDevTools(
-    applyMiddleware(
-      customMiddleware,
-      sagaMiddleware,
-      // routerMiddleware
-    ),
+    applyMiddleware(customMiddleware, sagaMiddleware, routerMiddleware),
   ),
 )
 
 sagaMiddleware.run(saga)
-
-// export const history = createReduxHistory(store)
 
 export default store

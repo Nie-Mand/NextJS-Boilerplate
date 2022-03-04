@@ -38,6 +38,11 @@ export const createPage = () => {
         default: 'Home',
       },
       {
+        type: 'input',
+        name: 'path',
+        message: 'What is the path of the page? (could contain parameters)',
+      },
+      {
         type: 'list',
         name: 'layout',
         message: 'What is the layout of the page?',
@@ -47,6 +52,37 @@ export const createPage = () => {
     ])
 
     const name = capitalize(config.name)
+
+    const params = config.path.includes(':')
+
+    const pathString =
+      '/' +
+      config.path
+        .split('/')
+        .filter((path: string) => path.length > 0)
+        .map((path: string) => {
+          if (path.includes(':') && path.length > 1) {
+            const param = path.split(':')[1]
+            return '${params.' + param + '}'
+          }
+          return path
+        })
+        .join('/')
+
+    const paramTypes = config.path
+      .split('/')
+      .filter((path: string) => path.length > 0)
+      .filter((path: string) => path.includes(':') && path.length > 1)
+      .map((path: string) => `${path.split(':')[1]}: string, `)
+      .join('')
+
+    const data = {
+      params,
+      noParams: !params,
+      name: disCapitalize(name),
+      path: pathString,
+      paramTypes,
+    }
 
     const spinner = createSpinner(`creating ${name}..\n`).start()
 
@@ -82,12 +118,19 @@ export const createPage = () => {
       success('components/index.ts', 'created'),
     )
 
+    await Fs.writeFile(
+      pathOf('./components/index.ts'),
+      'export {}\n',
+      success('components/index.ts', 'created'),
+    )
+
     await create(
       'page/index.txt',
       pathOf('./index.tsx'),
       {
         Name: capitalize(name),
         name,
+        Layout: config.layout,
       },
       success('index.tsx', 'created'),
     )
@@ -129,65 +172,28 @@ export const createPage = () => {
       success(`${capitalize(name)}.styled.tsx`, 'created'),
     )
 
-    // const params = config.path.includes(':')
+    const routesConfigContent = await Fs.readFileSync(path('routes.ts'), 'utf8')
 
-    // const pathString =
-    //   '/' +
-    //   config.path
-    //     .split('/')
-    //     .filter((path: string) => path.length > 0)
-    //     .map((path: string) => {
-    //       if (path.includes(':') && path.length > 1) {
-    //         const param = path.split(':')[1]
-    //         return '${params.' + param + '}'
-    //       }
-    //       return path
-    //     })
-    //     .join('/')
+    const routesConfigtemplatePath = Path.resolve(
+      __dirname,
+      './templates/page/routes.txt',
+    )
 
-    // const paramTypes = config.path
-    //   .split('/')
-    //   .filter((path: string) => path.length > 0)
-    //   .filter((path: string) => path.includes(':') && path.length > 1)
-    //   .map((path: string) => `${path.split(':')[1]}: string, `)
-    //   .join('')
+    const templateContent = await Fs.readFileSync(
+      routesConfigtemplatePath,
+      'utf8',
+    )
 
-    // const data = {
-    //   params,
-    //   noParams: !params,
-    //   name: disCapitalize(name),
-    //   path: pathString,
-    //   paramTypes,
-    // }
+    await Fs.writeFileSync(
+      path('routes.ts'),
+      routesConfigContent + '\n' + Ejs.render(templateContent, data),
+    )
 
-    // const routesConfigContent = await Fs.readFileSync(
-    //   path('routes.tsx'),
-    //   'utf8',
-    // )
+    success(`routes.ts`, 'updated')
 
-    // const routesConfigtemplatePath = Path.resolve(
-    //   __dirname,
-    //   './templates/page/routes.txt',
-    // )
-
-    // const templateContent = await Fs.readFileSync(
-    //   routesConfigtemplatePath,
-    //   'utf8',
-    // )
-
-    // await Fs.writeFileSync(
-    //   path('routes.tsx'),
-    //   routesConfigContent + '\n' + Ejs.render(templateContent, data),
-    // )
-
-    // const routesJSON = await Fs.readFileSync(path('routes.json'), 'utf8')
-
-    // const routes = JSON.parse(routesJSON)
-
-    // routes.push(route)
-
-    // await Fs.writeFileSync(path('routes.json'), JSON.stringify(routes, null, 2))
-
-    // success(`routes.json`, 'updated')
+    console.log(`
+Go add the following your/pages folder:
+export { default } from 'app/components/pages/${capitalize(name)}'
+`)
   })
 }

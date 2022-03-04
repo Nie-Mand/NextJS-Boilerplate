@@ -1,24 +1,20 @@
-import { Button } from 'app/ui'
-import { useUser } from 'app/hooks'
+import Head from 'next/head'
+import Home from './Home'
+// import { useMessages } from 'app/hooks'
+import messages from './messages.json'
+import Layout from 'app/components/layouts/Default'
 
-export default function Home() {
-  const { state, createUser } = useUser()
-
-  console.log(state)
+const HomePage = () => {
+  // const t = useMessages('Home')
 
   return (
-    <div>
-      hello
-      <Button
-        key={'button'}
-        onClick={() =>
-          createUser({
-            message: 'hello world',
-          })
-        }
-      >
-        Hello
-      </Button>
-    </div>
+    <>
+      <Head>{/* <title>{t(messages.title)}</title> */}</Head>
+      <Layout>
+        <Home />
+      </Layout>
+    </>
   )
 }
+
+export default HomePage

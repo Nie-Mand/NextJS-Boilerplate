@@ -1,4 +1,5 @@
 export * from './redux/hooks'
+import { useRouter } from 'next/router'
 
 // TODO: I18N
 // import { useTranslation } from 'react-i18next'
@@ -17,12 +18,12 @@ export * from './redux/hooks'
 //   return handler
 // }
 
-// export const useSwitchLanguage = () => {
-//   const { i18n } = useTranslation()
+export const useSwitchLanguage = () => {
+  const { locale, push, pathname } = useRouter()
+  const handleSwitchLanguage = () => {
+    if (locale === 'en') push('/', '/', { locale: 'fr' })
+    else push(pathname, pathname, { locale: 'en' })
+  }
 
-//   const handleSwitchLanguage = () => {
-//     i18n.changeLanguage(i18n.language == 'en' ? 'fr' : 'en')
-//   }
-
-//   return handleSwitchLanguage
-// }
+  return handleSwitchLanguage
+}

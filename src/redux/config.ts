@@ -2,14 +2,28 @@ import { combineReducers } from 'redux'
 import { all } from 'redux-saga/effects'
 import * as reducers from './reducers'
 import * as sagas from './sagas'
-// import { routerReducer as router } from './router'
 export { customMiddleware } from './middleware'
-// export { routerMiddleware, createReduxHistory } from './router'
+import { HYDRATE } from 'next-redux-wrapper'
+export {
+  createRouterMiddleware,
+  initialRouterState,
+} from 'connected-next-router'
+export { createWrapper } from 'next-redux-wrapper'
 
-export const reducer = combineReducers({
-  // router,
-  ...reducers,
-})
+export const reducer = (state, action) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state,
+      ...action.payload,
+    }
+    if (typeof window !== 'undefined' && state?.router) {
+      nextState.router = state.router
+    }
+    return nextState
+  } else {
+    return combineReducers(reducers)(state, action)
+  }
+}
 
 export function* saga() {
   yield all([...Object.values(sagas).map(saga => saga())])
