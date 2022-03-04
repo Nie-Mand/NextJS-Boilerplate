@@ -8,14 +8,6 @@ const Forbidden = () => {
   return (
     <Container>
       <Title>{t(messages.content)}</Title>
-
-      <button
-        onClick={() => {
-          throw new Error()
-        }}
-      >
-        dont touch me
-      </button>
     </Container>
   )
 }
