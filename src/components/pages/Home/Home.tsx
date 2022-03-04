@@ -1,15 +1,12 @@
-// import { useMessages } from 'app/hooks'
+import { useMessages } from 'app/hooks'
 import messages from './messages.json'
 import { Title, Container } from './Home.styled'
 
 const Home = () => {
-  // const t = useMessages('Home')
+  const t = useMessages('Home')
   return (
     <Container>
-      <Title>
-        hey
-        {/* {t(messages.hello)} */}
-      </Title>
+      <Title>{t(messages.hello)}</Title>
     </Container>
   )
 }

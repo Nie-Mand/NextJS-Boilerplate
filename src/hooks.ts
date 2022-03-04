@@ -4,19 +4,20 @@ import { useRouter } from 'next/router'
 // TODO: I18N
 // import { useTranslation } from 'react-i18next'
 
-// export const useMessages = (ns: string) => {
-//   const { t } = useTranslation()
+export const useMessages = (ns: string) => {
+  //   const { t } = useTranslation()
 
-//   type Message = {
-//     id: string
-//     defaultMessage: string
-//   }
-//   const handler = (message: Message) => {
-//     return t(`${ns}:${message.id}`, message.defaultMessage)
-//   }
+  type Message = {
+    id: string
+    defaultMessage: string
+  }
+  const handler = (message: Message) => {
+    // return t(`${ns}:${message.id}`, message.defaultMessage)
+    return message.defaultMessage
+  }
 
-//   return handler
-// }
+  return handler
+}
 
 export const useSwitchLanguage = () => {
   const { locale, push, pathname } = useRouter()

@@ -1,8 +1,10 @@
 const prefix = '/v1'
 
-export default {
+const endpoints = {
   prefix,
   global: {
     get: () => prefix + '/',
   },
 }
+
+export default endpoints
