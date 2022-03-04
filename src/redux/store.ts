@@ -1,22 +1,35 @@
+// import {
+//   reducer,
+//   saga,
+//   customMiddleware,
+//   createRouterMiddleware,
+//   initialRouterState,
+//   createWrapper,
+//   // routerMiddleware,
+//   // createReduxHistory,
+// } from './config'
+// const routerMiddleware = createRouterMiddleware()
+
+// export default store
+
+// store/configure-store.js
 import { createStore, applyMiddleware } from 'redux'
-import createSagaMiddleware from 'redux-saga'
-import { composeWithDevTools } from '@redux-devtools/extension'
 import {
-  reducer,
-  saga,
-  customMiddleware,
   createRouterMiddleware,
   initialRouterState,
-  createWrapper,
-  // routerMiddleware,
-  // createReduxHistory,
-} from './config'
+} from 'connected-next-router'
+import { createWrapper } from 'next-redux-wrapper'
+import Router from 'next/router'
 
-const sagaMiddleware = createSagaMiddleware()
+import { composeWithDevTools } from '@redux-devtools/extension'
+import createSagaMiddleware from 'redux-saga'
+
+import { reducer, saga, customMiddleware } from './config'
+
 const routerMiddleware = createRouterMiddleware()
+const sagaMiddleware = createSagaMiddleware()
 
-// TODO: follow: https://github.com/danielr18/connected-next-router
-const store = createStore(
+export const store = createStore(
   reducer,
   composeWithDevTools(
     applyMiddleware(customMiddleware, sagaMiddleware, routerMiddleware),
@@ -24,5 +37,3 @@ const store = createStore(
 )
 
 sagaMiddleware.run(saga)
-
-export default store

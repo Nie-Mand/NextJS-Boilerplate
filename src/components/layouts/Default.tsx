@@ -1,15 +1,7 @@
 import { useSwitchLanguage } from 'app/hooks'
-import * as routes from 'app/routes'
 
 const DefaultLayout = (props: Props) => {
   const handleSwitchLanguage = useSwitchLanguage()
-
-  console.log(
-    routes.blog({
-      category: 'react',
-      blogId: 'fjkhsdf',
-    }),
-  )
 
   return (
     <div>

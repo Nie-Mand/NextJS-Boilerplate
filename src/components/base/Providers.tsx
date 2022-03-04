@@ -2,9 +2,9 @@ import { ThemeProvider } from '@mui/material'
 import theme from 'app/ui/theme'
 import PageLoadingProvider from './PageLoadingProvider'
 import { Provider as ReduxProvider } from 'react-redux'
-import store from 'app/redux/store'
 import SocketProvider from 'app/socket'
 import { ConnectedRouter } from 'connected-next-router'
+import { store } from 'app/redux/store'
 
 const Providers = ({ children }) => {
   return (
