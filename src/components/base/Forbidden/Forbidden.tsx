@@ -4,11 +4,18 @@ import { Title, Container } from './Forbidden.styled'
 
 const Forbidden = () => {
   const t = useMessages('Forbidden')
-  throw new Error()
 
   return (
     <Container>
       <Title>{t(messages.content)}</Title>
+
+      <button
+        onClick={() => {
+          throw new Error()
+        }}
+      >
+        dont touch me
+      </button>
     </Container>
   )
 }
